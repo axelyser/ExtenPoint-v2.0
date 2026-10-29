@@ -54,6 +54,12 @@ Si el estudiante todavía no inició sesión, la aplicación conserva la activid
 
 El QR se genera en el navegador con una biblioteca incluida en el proyecto, sin enviar el enlace a un servicio externo. La aplicación no necesita acceso a la cámara.
 
+### Cupos de inscripción
+
+El organizador define el **cupo máximo de participantes** al crear una actividad y puede ajustarlo después desde su ficha. Las actividades de demo parten de 30 cupos y tienen lugares disponibles. El listado y el detalle muestran inscritos, cupo total y lugares restantes.
+
+Supabase comprueba el cupo en cada inscripción y serializa las solicitudes de una misma actividad para evitar sobrepasarlo con inscripciones simultáneas. Solo el organizador propietario puede cambiarlo y no puede reducirlo por debajo de los inscritos actuales. El cupo limita inscripciones, no horas de extensión.
+
 ## Probar la demo
 
 Las credenciales de las cinco cuentas de prueba se entregan por separado en ACCESOS_DEMO.md, que no forma parte del repositorio:
@@ -122,6 +128,7 @@ Los datos persisten entre dispositivos. **Actualizar datos** consulta el estado 
 - [js/siteConfig.js](js/siteConfig.js): dominio público que utilizan los QR, incluso desde localhost.
 - [supabase/schema.sql](supabase/schema.sql): esquema base.
 - [supabase/002_qr_registrations.sql](supabase/002_qr_registrations.sql): migración de inscripciones, que se aplica después del esquema base al preparar una base nueva.
+- [supabase/003_activity_capacity.sql](supabase/003_activity_capacity.sql): cupos y conteos globales de inscripción. Se aplica después de la migración 002.
 
 La base compartida de la demo ya tiene aplicada la migración. Publicar cambios del frontend no requiere volver a ejecutarla. Para usar otro proyecto Supabase también debes configurar sus cuentas Auth, perfiles y datos de prueba.
 
