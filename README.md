@@ -104,3 +104,11 @@ En navegador también se verificó el recorrido sin sesión → inicio de sesió
 
 Se comprobó además la lista de dos inscritos desde la cuenta organizadora y la descarga SVG desde la interfaz. El archivo descargado se decodificó con un lector independiente y contenía exactamente el dominio público y el ID de la actividad de ejemplo. No se probó una cámara física ni el despliegue de esta versión en Vercel.
 
+
+## Acceso único y actividades abiertas de prueba
+
+El inicio ofrece un único botón Ingresar y el formulario no precarga un correo según un rol elegido. Supabase identifica el rol de la cuenta al autenticarla y dirige al panel correspondiente. Si ya existe una sesión, el botón abre su panel.
+
+Se agregaron seis actividades ficticias aprobadas y planificadas, con fechas de noviembre y diciembre de 2026: Jornada de apoyo comunitario, Clínica de reparación de computadoras, Materiales digitales para escuelas, Tutorías de física y matemáticas, Encuentro de tecnología y comunidad y Campaña de eficiencia energética. Cuatro pertenecen a la primera cuenta organizadora y dos a la segunda. El catálogo de ejemplo está en supabase/demoActivities.json; los registros ya fueron cargados en la base compartida sin inscribir a los estudiantes ni asignar horas.
+
+Verificación: dieciocho pruebas unitarias aprobadas. En navegador se comprobó el botón único, las seis actividades como No inscrito para Mateo y la ficha de una de ellas con el botón Confirmar mi inscripción y su QR para compartir. La inscripción de prueba no se confirmó, para dejar las actividades disponibles para probar manualmente.
