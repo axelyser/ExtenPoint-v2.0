@@ -26,3 +26,6 @@ button.secondary{background:#f0eeee;color:#682026}.info{background:#faf2f2;color
 .ranking-demo-label{font-size:11px;color:#7b5255;background:#f3e8e9;border:1px solid #e8d4d6;border-radius:6px;padding:7px 12px}
 
 #account{display:flex;align-items:center;gap:14px;font-size:11px;letter-spacing:0}#account>span{max-width:260px}#account button{font-size:11px;padding:7px 10px}.login-panel{max-width:540px;margin:30px 0 60px}.login-panel form{display:grid;gap:20px}.login-panel p{font-size:12px;margin-top:25px}.login-panel button{justify-self:start}@media(max-width:700px){header{height:auto;min-height:90px;padding:14px 0;flex-wrap:wrap}#account{flex-wrap:wrap;gap:8px}#account>span{max-width:none}}
+
+/* Las rutas reservadas solo se muestran al rol autorizado. */
+[hidden]{display:none!important}
