@@ -1,0 +1,6 @@
+.env
+.env.*
+!.env.example
+demo-accounts.json
+ACCESOS_DEMO.md
+node_modules/
