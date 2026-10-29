@@ -77,7 +77,30 @@ Las pruebas remotas usan registros QA propios que se eliminan al finalizar, cons
 
 Puedes publicar el contenido de esta carpeta desde main y /(root) en Settings → Pages de GitHub; las rutas son relativas y no hay compilación. Publicar el frontend no requiere el token administrativo: solo la URL y clave pública ya configuradas. Distribuye las cuentas de demo por separado si quieres controlar quién utiliza el organizador y el directivo.
 
-Todavía faltan generación/escaneo de QR, sesiones de asistencia con vencimiento, carga de archivos de evidencia y adopción institucional. La aprobación y validación de demo siguen sin ser autorización ni acreditación oficial de FIUNA. El mínimo de 30 horas y las líneas de acción son controles informativos del progreso acumulado; no son el objetivo del ranking semestral.
+La inscripción por QR ya está implementada. Todavía faltan QR de asistencia con vencimiento, carga de archivos de evidencia y adopción institucional. La aprobación y validación de demo siguen sin ser autorización ni acreditación oficial de FIUNA. El mínimo de 30 horas y las líneas de acción son controles informativos del progreso acumulado; no son el objetivo del ranking semestral.
 
 La comprobación de navegador también incluyó la restauración de sesión del organizador y la creación de una actividad pendiente mediante el formulario conectado a Supabase. Se confirmó el mensaje de guardado y la ficha devuelta desde el servidor.
+
+
+
+## Inscripción por QR automático
+
+Cada actividad aprobada tiene un QR estable generado automáticamente en su ficha del organizador. No se necesita pulsar un botón para generarlo. El organizador puede descargar el SVG, imprimirlo, copiar el enlace y abrir la lista de inscritos. Los QR no se generan para actividades pendientes o rechazadas.
+
+El destino público configurado es https://extenpoint-v20.vercel.app/ y se puede modificar en js/siteConfig.js. Una URL usa #actividad/ID, por lo que no necesita reglas de reescritura en Vercel. Al escanear con la cámara habitual del celular se abre esa ficha. Si falta sesión, el destino se conserva durante el inicio de sesión y luego se vuelve a la actividad para confirmar. No se pide permiso de cámara dentro de la aplicación ni se suben imágenes del celular.
+
+Solo estudiantes autenticados pueden confirmar su propia inscripción. Supabase comprueba aprobación y que el estado sea planificada o en curso. Una actividad finalizada rechaza nuevas inscripciones. La restricción única de estudiante/actividad impide duplicados, incluso en solicitudes simultáneas. La repetición devuelve la inscripción existente. No crea asistencias, no modifica horas y no cambia el ranking.
+
+El estudiante tiene Mis inscripciones y un listado de actividades abiertas. El organizador ve solamente las inscripciones de sus actividades; un estudiante ve solo las suyas. El directivo puede consultar las inscripciones desde los datos autorizados del servidor. La inscripción queda en la bitácora como un evento diferente de la revisión de horas.
+
+La migración supabase/002_qr_registrations.sql ya fue aplicada al proyecto compartido. Para reconstruir la base, aplica primero schema.sql y después 002_qr_registrations.sql. No hace falta volver a ejecutarla al publicar los archivos en Vercel. Para que un teléfono use el nuevo flujo público, sube primero estos cambios al repositorio y espera el despliegue de Vercel.
+
+Se dejó la actividad ficticia aprobada y abierta «Taller de apoyo escolar · Demo QR» como ejemplo. Está asignada al primer organizador de demo. La biblioteca qrcode-generator 1.4.4 está incluida localmente en js/vendor con licencia MIT; no se envían enlaces ni datos de estudiantes a servicios externos para generar QR.
+
+Validación de esta versión: dieciocho pruebas unitarias aprobadas y decodificación de un QR con un lector independiente. Pruebas reales de Supabase: bloqueo antes de aprobar, cuentas y actividades inválidas, cierre por estado finalizada, inscripción concurrente sin duplicados, persistencia, listado visible solo al titular y organizador propietario y ausencia de cambios en participaciones u horas.
+
+En navegador también se verificó el recorrido sin sesión → inicio de sesión → retorno a la actividad → confirmación → Mis inscripciones, con los apartados exclusivos de organizador y directivo ocultos para el estudiante. La actividad de ejemplo conserva las inscripciones ficticias de las pruebas para demostrar el listado.
+
+
+Se comprobó además la lista de dos inscritos desde la cuenta organizadora y la descarga SVG desde la interfaz. El archivo descargado se decodificó con un lector independiente y contenía exactamente el dominio público y el ID de la actividad de ejemplo. No se probó una cámara física ni el despliegue de esta versión en Vercel.
 

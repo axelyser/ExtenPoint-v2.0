@@ -14,6 +14,7 @@ export const cloud={
  async initialize(){try{const raw=localStorage.getItem(SESSION_KEY);if(!raw)return null;session=JSON.parse(raw);await refresh();return await getProfile();}catch(e){remember(null);profile=null;throw e;}},
  async login(email,password){const next=await request('/auth/v1/token?grant_type=password',{method:'POST',body:{email,password},anonymous:true});remember(next);try{return await getProfile();}catch(e){remember(null);throw e;}},
  async logout(){try{if(session)await request('/auth/v1/logout',{method:'POST'});}finally{remember(null);profile=null;}},
+ async enroll(activityId){await refresh();return request('/rest/v1/rpc/epx_enroll',{method:'POST',body:{activity_id:activityId}});},
  async state(){await refresh();return request('/rest/v1/rpc/epx_state',{method:'POST',body:{}});},
  async apply(before,after){
   await refresh();const operations=[];
